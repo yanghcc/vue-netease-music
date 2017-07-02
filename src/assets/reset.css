@@ -1,0 +1,29 @@
+/*
+* @Author: yanghcc
+* @Date:   2017-07-01 20:00:21
+* @Last Modified by:   yanghcc
+* @Last Modified time: 2017-07-02 20:48:35
+*/
+
+*{
+	margin: 0;
+	padding: 0;
+}
+a{
+	text-decoration: none;
+}
+ul{
+	list-style: none;
+}
+img{
+	border: 0;
+}
+input, button{
+	border: 0;
+	outline: none;
+	-webkit-appearance:none;
+}
+.mint-loadmore-top{
+	padding: 40px 0;
+	margin-top: -130px;
+}
