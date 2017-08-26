@@ -1,12 +1,17 @@
 <template>
   <div class="index">
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
-    <Search></Search>
-    <h2 class="least-music">最新音乐</h2>
-  <ul class="full-list">
-    <li v-for="item in songsList">{{ item }}</li>
-  </ul>
-</mt-loadmore>
+      <Search></Search>
+      <mt-swipe :auto="4000">
+        <mt-swipe-item>1</mt-swipe-item>
+        <mt-swipe-item>2</mt-swipe-item>
+        <mt-swipe-item>3</mt-swipe-item>
+      </mt-swipe>
+      <h2 class="least-music">最新音乐</h2>
+      <ul class="full-list">
+        <li v-for="(item,index) in songsList" :key="index"><router-link :to="{ path: '/player', query: { id: item.id }}" v-text="item.name"></router-link></li>
+      </ul>
+    </mt-loadmore>
   </div>
 </template>
 
@@ -15,16 +20,15 @@ import Search from '../components/search.vue'
 export default {
   name: 'index',
   data () {
-    // console.log(this)
     return {
-      songsList: [1, 2, 3, 4, 5, 6, 7],
+      songsList: [],
       allLoaded: false
     }
   },
   components: {
     Search
   },
-  mounted () {
+  created () {
     this.getData()
   },
   methods: {
@@ -38,37 +42,22 @@ export default {
       console.log('bottom active')
     },
     getData: function (argument) {
-      // let proxy = 'https://bird.ioliu.cn/v1?url='
-      // let netease = 'https://music.163.com'
-      // let newsong = proxy + netease + '/weapi/v3/playlist/detail'
-      let api = 'api/search'
-      // let api = proxy + 'https://api.imjad.cn/cloudmusic'
-      // let URLprefix = 'https://bird.ioliu.cn'
-      // let list = `${URLprefix}/netease/song`
-      // this.$jsonp(api, {
-      //   // callbackName: 'jsonpcallback',
-      //   // callbackQuery: 'cb',
-      //   type: 'song',
-      //   id: '229010'
-      // })
+      let api = '/api/top/list'
       this.$axios({
         method: 'get',
         url: api,
-        proxy: {
-          host: 'localhost',
-          port: 3000
-        },
         params: {
-          keywords: '海阔天空'
+          idx: 1
         }
       })
-      .then(function (res) {
+      .then((res) => {
+        let data = res.data
         console.log(res)
-        if (res.status === 200) {
-          this.songsList = res.data
+        if (data.code === 200) {
+          this.songsList = data.result.tracks
         }
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error)
       })
     }
@@ -81,7 +70,23 @@ export default {
   body{
     font-size: 50px;
   }
+  .index{
+    height: 100%;
+  }
+  .full-list{
+    padding: 0 30px;
+  }
   .full-list li{
     border-bottom: 1px solid #ccc;
+    text-align: left;
+  }
+  .full-list li a{
+    display: block;
+  }
+  .mint-swipe{
+    height: 500px;
+  }
+  .least-music{
+    font-size: 50px;
   }
 </style>

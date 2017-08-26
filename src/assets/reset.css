@@ -1,8 +1,8 @@
 /*
 * @Author: yanghcc
 * @Date:   2017-07-01 20:00:21
-* @Last Modified by:   yanghcc
-* @Last Modified time: 2017-07-02 20:48:35
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2017-08-26 23:15:48
 */
 
 *{
@@ -10,10 +10,14 @@
 	padding: 0;
 }
 a{
-	text-decoration: none;
+  text-decoration: none;
+  color: #555;
 }
 ul{
 	list-style: none;
+}
+ul li{
+  padding: 30px 0;
 }
 img{
 	border: 0;
@@ -24,6 +28,6 @@ input, button{
 	-webkit-appearance:none;
 }
 .mint-loadmore-top{
-	padding: 40px 0;
-	margin-top: -130px;
+	/* padding: 40px 0; */
+	/* margin-top: -130px; */
 }

@@ -1,10 +1,19 @@
 <template>
   <div class="search">
-    <input type="text" placeholder="邓丽君" v-model="keywords" class="search-box" @focus="changeBtn" @blur="blur" @change="searchSuggest">
-    <button class="search-btn" v-text="btn" @click="getData"></button>
-    <ul class="suggest" v-for="item in suggestWords">
-      <li v-text="item.name"></li>
-    </ul>
+    <div class="search-wrapper">
+      <input type="text" placeholder="搜索音乐" v-model="keywords" class="search-box" @focus="changeBtn" @blur="blur" @change="searchSuggest">
+      <button class="search-btn" v-text="btn" @click="getData"></button>
+    </div>
+    <div class="suggest-wrapper" :style="{display: isSearch}">
+      <div class="seggest-content">
+        <ul class="suggest suggest-songs" >
+          <li v-for="item in suggestSongs" :key="item"><router-link :to="{ path: '/player', query: { id: item.id }}" v-text="item.name"></router-link></li>
+        </ul>
+        <ul class="suggest suggest-playlist" >
+          <li v-for="item in suggestPlaylist" :key="item" v-text="item.name"></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,29 +21,36 @@
 export default {
   name: 'search',
   data () {
-    // console.log(this)
     return {
       btn: '搜索',
-      suggestWords: [1, 2],
-      keywords: ''
+      suggestSongs: [],
+      suggestPlaylist: [],
+      keywords: '',
+      isSearch: 'block'
     }
   },
   mounted () {
-    // console.log(this.searchSuggest)
+  },
+  watch: {
+    keywords: function () {
+      let kw = this.keywords
+      this.searchSuggest(kw)
+    }
   },
   methods: {
-    searchSuggest: function (argument) {
-      let suggest = '/api/search/suggest'
-      this.$axios.get(suggest, {
+    searchSuggest: function (arg) {
+      let url = '/api/search/suggest'
+      this.$axios.get(url, {
         params: {
-          keywords: this.keywords
+          keywords: arg || this.keywords
         }
       })
       .then((res) => {
         console.log(res)
         let data = res.data
         if (res.status === 200) {
-          this.suggestWords = data.result.songs
+          this.suggestSongs = data.result.songs
+          this.suggestPlaylist = data.result.playlists
         }
       })
       .catch((error) => {
@@ -47,25 +63,8 @@ export default {
     blur: function (argument) {
       this.btn = '搜索'
     },
-    getData: function (argument) {
-      let proxy = 'https://bird.ioliu.cn/v1?url='
-      let api = proxy + 'https://api.imjad.cn/cloudmusic'
-      // let URLprefix = 'https://bird.ioliu.cn'
-      // let list = `${URLprefix}/netease/song`
-      this.$axios.post(api, {
-        params: {
-          type: 'song',
-          id: '229010'
-        }
-      })
-      .then(function (res) {
-        console.log(res)
-        if (res.status === 200) {
-        }
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+    getData: function () {
+
     }
   }
 }
@@ -74,6 +73,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
   .search{
+    position: relative;
+  }
+  .search-wrapper{
     background-color: red;
     padding: 50px 0;
   }
@@ -87,5 +89,17 @@ export default {
     background-color: transparent;
     color: #fff;
     font-size: 50px;
+  }
+  .suggest-wrapper{
+    /* width: 100%; */
+    /* height: auto; */
+    /* transition: height .3 ease; */
+    /* height: 500px;
+    overflow: auto;
+    background-color: #eee;
+    position: absolute;
+    top: 179px;
+    left: 0;
+    z-index: 999; */
   }
 </style>

@@ -24,16 +24,15 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     port: 9090,
-    // autoOpenBrowser: true,
+    autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
-        target: 'http://localhost:3000',
-        // target: 'https://api.imjad.cn',
+      '/api/': {
+        target: 'http://192.168.2.158:3000',
         hangeOrigin: true,
         pathRewrite: {
-          '^/api': '/api'
+          '^/api': '/'
         }
       }
     },
