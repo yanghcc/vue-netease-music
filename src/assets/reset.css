@@ -2,7 +2,7 @@
 * @Author: yanghcc
 * @Date:   2017-07-01 20:00:21
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-08-26 23:15:48
+ * @Last Modified time: 2017-09-07 11:05:06
 */
 
 *{
@@ -25,9 +25,54 @@ img{
 input, button{
 	border: 0;
 	outline: none;
-	-webkit-appearance:none;
+  -webkit-appearance:none;
+  background-color: transparent;
 }
 .mint-loadmore-top{
 	/* padding: 40px 0; */
 	/* margin-top: -130px; */
+}
+@font-face {font-family: "iconfont";
+  src: url('./font/iconfont.eot'); /* IE9*/
+  src: url('./font/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./font/iconfont.woff') format('woff'), /* chrome, firefox */
+  url('./font/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('./font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size: 30px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.animated.infinite {
+  animation-iteration-count: infinite;
+}
+
+.animated.hinge {
+  animation-duration: 2s;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.slideInUp {
+  animation-name: slideInUp;
 }

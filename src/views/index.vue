@@ -68,13 +68,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
   body{
-    font-size: 50px;
+    font-size: 20px;
   }
   .index{
     height: 100%;
   }
   .full-list{
-    padding: 0 30px;
+    padding: 0 10px;
   }
   .full-list li{
     border-bottom: 1px solid #ccc;
@@ -84,9 +84,7 @@ export default {
     display: block;
   }
   .mint-swipe{
-    height: 500px;
-  }
-  .least-music{
-    font-size: 50px;
+    height: 200px;
+    background-color: #ccc;
   }
 </style>

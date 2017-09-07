@@ -12,7 +12,6 @@ Vue.use(Mint)
 Vue.use(Jsonp)
 Vue.config.productionTip = false
 Vue.prototype.$axios = Axios
-Vue.prototype.$api = '//104.224.135.134:3000'
 
 /* eslint-disable */
 new Vue({

@@ -77,18 +77,19 @@ export default {
   }
   .search-wrapper{
     background-color: red;
-    padding: 50px 0;
+    padding: 10px 0;
   }
   .search-box{
-    padding: 10px 30px;
-    font-size: 50px;
-    border-radius: 40px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 18px;
+    background-color: #fff;
   }
   .search-btn{
-    padding: 10px 20px;
+    padding: 5px;
     background-color: transparent;
     color: #fff;
-    font-size: 50px;
+    font-size: 20px;
   }
   .suggest-wrapper{
     /* width: 100%; */

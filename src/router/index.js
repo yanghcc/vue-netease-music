@@ -10,11 +10,9 @@ export default new Router({
     path: '/',
     name: 'index',
     component: Index
-  },
-  {
+  }, {
     path: '/player',
     name: 'player',
     component: Player
-  }
-  ]
+  }]
 })
