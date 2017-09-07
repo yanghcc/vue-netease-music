@@ -14,7 +14,7 @@
         <span class="range-outer">
           <mt-range v-model="rangeValue"></mt-range>
         </span>
-        <button type="button" @click="download"><i class="iconfont">&#xe69f;</i></button>
+        <a :href="downLoadLink" :download="fileName" @click="download"><i class="iconfont">&#xe69f;</i></a>
       </div>
       <audio :src="songLink" id="media"></audio>
       <p v-for="(item,i) in lrc" :key="item" :class="i === index?'height-light':''">{{item}}</p>
@@ -41,7 +41,9 @@ export default {
       playTime: 0,
       progress: 0,
       index: 0,
-      top: 0
+      top: 0,
+      downLoadLink: '',
+      fileName: ''
     }
   },
   created () {
@@ -101,7 +103,10 @@ export default {
         let time = lrc.match(/\[[^\]]+\]/g)
         wolds.shift()
         let bg = img.data.songs[0].al.picUrl
+        let fn = img.data.songs[0].name + '.mp3'
         this.songLink = song
+        this.downLoadLink = song
+        this.fileName = fn
         this.lrcObj = {
           wolds: wolds,
           time: this.handleTimeFormate(time)
