@@ -2,12 +2,13 @@
 * @Author: yanghcc
 * @Date:   2017-07-01 20:00:21
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-09-07 11:05:06
+ * @Last Modified time: 2017-09-08 16:48:08
 */
 
 *{
 	margin: 0;
-	padding: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 a{
   text-decoration: none;
@@ -15,9 +16,6 @@ a{
 }
 ul{
 	list-style: none;
-}
-ul li{
-  padding: 30px 0;
 }
 img{
 	border: 0;

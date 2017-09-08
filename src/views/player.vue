@@ -74,6 +74,9 @@ export default {
       this.playCtrl()
       this.volume = this.Media.volume
     })
+    this.Media.addEventListener('ended', () => {
+      this.playCtrl()
+    })
   },
   watch: {
     rangeValue: function (val) {
@@ -86,16 +89,27 @@ export default {
     }
   },
   methods: {
+    getUrl: function (url, options) {
+      return this.$axios(
+        {
+          method: 'get',
+          url: url,
+          params: options
+        }
+      )
+    },
     // TODO:获取歌曲
     getSong: function () {
-      const Murl = '/api/music/url?id=' + util.getQueryString('id')
-      const Lurl = '/api/lyric?id=' + util.getQueryString('id')
-      const Surl = '/api/song/detail?ids=' + util.getQueryString('id')
-      let _this = this
-      function getUrl (url) {
-        return _this.$axios.get(url)
+      const Murl = '/api/music/url'
+      const Lurl = '/api/lyric'
+      const Surl = '/api/song/detail'
+      let ops = {
+        id: util.getQueryString('id')
       }
-      this.$axios.all([getUrl(Murl), getUrl(Lurl), getUrl(Surl)])
+      let ops2 = {
+        ids: util.getQueryString('id')
+      }
+      this.$axios.all([this.getUrl(Murl, ops), this.getUrl(Lurl, ops), this.getUrl(Surl, ops2)])
       .then(this.$axios.spread((acct, perms, img) => {
         let song = acct.data.data[0].url
         let lrc = perms.data.lrc.lyric
@@ -221,7 +235,6 @@ export default {
     bottom: 0;
     font-size: 50px;
     background-color: #ccc;
-    opacity: .8;
     padding: 10px 0;
   }
   .progress-out{
@@ -233,5 +246,8 @@ export default {
   .range-outer{
     display: inline-block;
     width: 80px;
+  }
+  .test{
+    display: flex;
   }
 </style>
