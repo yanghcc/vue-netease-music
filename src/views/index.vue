@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <!-- <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore"> -->
+    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
       <Search></Search>
       <mt-swipe :auto="4000">
         <mt-swipe-item v-for="(item, index) in songList" :key="index">
@@ -13,41 +13,7 @@
       <ul class="full-list">
         <li v-for="(item,index) in songs" :key="index"><router-link :to="{path: '/player', query: { id: item.id }}" v-text="index + 1 + '、' + item.name"></router-link></li>
       </ul>
-      <!-- <div class="navbar is-fixed">
-        <div class="nav-item">
-          <span>主页</span>
-        </div>
-        <div class="nav-item">
-          <span>我的</span>
-        </div>
-      </div> -->
-      <mt-tabbar class="is-fixed">
-        <mt-tab-item id="外卖">
-          <router-link to="/" class="block">
-            <div class="mint-tab-item-icon">
-              <i class="iconfont">&#xe601;</i>
-            </div>
-            首页
-          </router-link>
-        </mt-tab-item>
-        <mt-tab-item id="发现">
-          <router-link to="/playList" class="block">
-            <div class="mint-tab-item-icon">
-              <i class="iconfont">&#xe691;</i>
-            </div>
-            发现
-          </router-link>
-        </mt-tab-item>
-        <mt-tab-item id="我的">
-          <router-link to="/my" class="block">
-            <div class="mint-tab-item-icon">
-              <i class="iconfont">&#xe755;</i>
-            </div>
-            我的
-          </router-link>
-        </mt-tab-item>
-      </mt-tabbar>
-    <!-- </mt-loadmore> -->
+    </mt-loadmore>
   </div>
 </template>
 
@@ -71,15 +37,15 @@ export default {
     Indicator.open()
   },
   methods: {
-    // loadTop: function (argument) {
-    //   // body...
-    //   console.log('top active')
-    //   this.getData()
-    // },
-    // loadBottom: function (argument) {
-    //   // body...
-    //   console.log('bottom active')
-    // },
+    loadTop: function (argument) {
+      // body...
+      console.log('top active')
+      this.getData()
+    },
+    loadBottom: function (argument) {
+      // body...
+      console.log('bottom active')
+    },
     getUrl: function (url, options) {
       return this.$axios(
         {
@@ -107,6 +73,7 @@ export default {
         console.log(this.songList)
         Indicator.close()
         this.allLoaded = true
+        this.$refs.loadmore.onTopLoaded()
       }))
     }
   }
@@ -164,12 +131,4 @@ export default {
       font-size: 12px;
     }
   }
-  .mint-tab-item-icon {
-  width: 24px;
-  height: 24px;
-  margin: 0 auto 5px;
-  i{
-    font-size: 24px;;
-  }
-}
 </style>
