@@ -32,7 +32,7 @@ module.exports = {
         target: 'http://localhost:3000',
         hangeOrigin: true,
         pathRewrite: {
-          '^/api': '/'
+          '^/api': '/api'
         }
       }
     },

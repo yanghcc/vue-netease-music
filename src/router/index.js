@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/views/index'
 import Player from '@/views/player'
 import PlayList from '@/views/PlayList'
+import My from '@/views/my'
 
 Vue.use(Router)
 
@@ -19,5 +20,9 @@ export default new Router({
     path: '/playList',
     name: 'playList',
     component: PlayList
+  }, {
+    path: '/my',
+    name: 'my',
+    component: My
   }]
 })

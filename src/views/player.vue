@@ -5,16 +5,20 @@
     <div class="content" :style="{top: top}">
       <div class="audio-ctrl-bar">
         <div class="progress-out">
-          <mt-progress :value="progress" :bar-height="5"></mt-progress>
+          <mt-range v-model="progress" @change="setProgress">
+            <div slot="start" class="showTime">{{transformTime(currTime)}}</div>
+            <div slot="end" class="showTime">{{transformTime(playTime)}}</div>
+          </mt-range>
         </div>
-        <button type="button" @click="playPrev"><i class="iconfont">&#xe608;</i></button>
+        <button type="button" @click="playPrev"><i class="iconfont">&#xe607;</i></button>
         <button type="button" @click="playCtrl"><i class="iconfont" v-html="playIcon"></i></button>
-        <button type="button" @click="playNext"><i class="iconfont">&#xe607;</i></button>
+        <button type="button" @click="playNext"><i class="iconfont">&#xe606;</i></button>
         <button type="button" @click="volumeCtrl"><i class="iconfont" v-html="volumeIcon"></i></button>
         <span class="range-outer">
           <mt-range v-model="rangeValue"></mt-range>
         </span>
-        <a :href="downLoadLink" :download="fileName" @click="download"><i class="iconfont">&#xe69f;</i></a>
+        <button type="button" @click="playModel"><i class="iconfont" v-html="playModel"></i></button>
+        <!-- <a :href="downLoadLink" :download="fileName" @click="download"><i class="iconfont">&#xe69f;</i></a> -->
       </div>
       <audio :src="songLink" id="media"></audio>
       <p v-for="(item,i) in lrc" :key="item" :class="i === index?'height-light':''">{{item}}</p>
@@ -34,11 +38,15 @@ export default {
       lrcObj: {},
       lrc: '',
       bg: '',
-      playIcon: '&#xe633;',
+      playIcon: '&#xe667;',
+      playIcons: ['&#xe667;', '&#xe62b;'],
       volumeIcon: '&#xe80a;',
+      volumeIcons: ['&#xe80a;', '&#xe809'],
+      playModel: '&#xe600;',
       volume: null,
       rangeValue: 1,
       playTime: 0,
+      currTime: 0,
       progress: 0,
       index: 0,
       top: 0,
@@ -51,22 +59,23 @@ export default {
     this.getSong()
   },
   mounted () {
-    this.Media = document.getElementById('media')
+    this.Media = util.getDom('#media')[0]
     this.Media.addEventListener('play', () => {
       this.rangeValue = this.Media.volume * 100
       this.playTime = this.Media.duration
+      this.Media.loop = true
       setInterval(() => {
-        this.progress = this.Media.currentTime / this.playTime * 100
+        this.currTime = this.Media.currentTime
+        this.progress = this.currTime / this.playTime * 100
       }, 1000)
-      this.progress = this.Media.currentTime / this.playTime * 100
+      this.progress = this.currTime / this.playTime * 100
     })
     this.Media.addEventListener('timeupdate', () => {
       let time = this.lrcObj.time
-      let currtime = this.Media.currentTime
       time.forEach((val, index) => {
-        if (currtime > time[index]) {
+        if (this.currTime > time[index]) {
           this.index = index
-          this.top = -(index * 28) + 'px'
+          this.top = -(index * 46) + 'px'
         }
       })
     })
@@ -74,19 +83,21 @@ export default {
       this.playCtrl()
       this.volume = this.Media.volume
     })
-    this.Media.addEventListener('ended', () => {
-      this.playCtrl()
-    })
   },
   watch: {
     rangeValue: function (val) {
       this.Media.volume = val / 100
       if (val === 0) {
-        this.volumeIcon = '&#xe6a5;'
+        this.volumeIcon = this.volumeIcons[1]
       } else {
-        this.volumeIcon = '&#xe80a;'
+        this.volumeIcon = this.volumeIcons[0]
       }
     }
+  },
+  computed: {
+    // setProgress: function (val) {
+    //   this.progress = val
+    // }
   },
   methods: {
     getUrl: function (url, options) {
@@ -127,28 +138,32 @@ export default {
         }
         this.lrc = wolds
         this.bg = bg
-        // console.log(time)
         Indicator.close()
       }))
     },
     playCtrl: function () {
       if (this.Media.paused) {
         this.Media.play()
-        this.playIcon = '&#xe81e;'
+        this.playIcon = this.playIcons[1]
       } else {
         this.Media.pause()
-        this.playIcon = '&#xe633;'
+        this.playIcon = this.playIcons[0]
       }
     },
     volumeCtrl: function () {
-      this.volumeIcon = '&#xe6a5;'
       if (!this.Media.muted) {
-        this.volumeIcon = '&#xe6a5;'
+        this.volumeIcon = this.volumeIcons[1]
         this.Media.muted = true
       } else {
-        this.volumeIcon = '&#xe80a;'
+        this.volumeIcon = this.volumeIcons[0]
         this.Media.muted = false
       }
+    },
+    setProgress: function (val) {
+      this.Media.currentTime = val * this.playTime / 100
+      this.progress = val / 100
+      // debugger
+      // console.log(val)
     },
     playPrev: function () {
 
@@ -158,6 +173,9 @@ export default {
     },
     download: function () {
 
+    },
+    iconSelct: function (arr, index) {
+      return arr[index]
     },
     transformTime: function (seconds) {
       let m, s
@@ -188,9 +206,6 @@ export default {
     position: relative;
   }
   .player-bg{
-    -webkit-filter: blur(80px); /* Chrome, Opera */
-      -moz-filter: blur(80px);
-      -ms-filter: blur(80px);
           filter: blur(80px);
           width: 100%;
           height: 100%;
@@ -213,12 +228,12 @@ export default {
     background-color:rgba(0,0,0,0.2)
   }
   .content {
-    padding: 100px 0;
+    padding: 70% 0;
     position: relative;
     transition: top .5s ease;
     p {
       font-size: 18px;
-      height: 28px;
+      // height: 28px;
       line-height: 28px;
       text-align: center;
       color: hsla(0, 0%, 100%, .6)
@@ -228,17 +243,17 @@ export default {
     color:#fff!important;
   }
   .audio-ctrl-bar{
-    display: inline-block;
+    display: flex;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    font-size: 50px;
     background-color: #ccc;
-    padding: 10px 0;
+    padding: 20px 0;
+    justify-content: center;
   }
   .progress-out{
-    margin-top: -22px;
+    margin-top: -35px;
     position: absolute;
     left: 0;
     right: 0;
@@ -246,8 +261,11 @@ export default {
   .range-outer{
     display: inline-block;
     width: 80px;
+    margin-right: 10px;
   }
-  .test{
-    display: flex;
+  .showTime{
+    font-size: 12px;
+    color: #fff;
+    margin: 0 5px;
   }
 </style>

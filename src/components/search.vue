@@ -71,7 +71,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss" scoped>
   .search{
     position: relative;
   }
@@ -89,18 +89,14 @@ export default {
     padding: 5px;
     background-color: transparent;
     color: #fff;
-    font-size: 20px;
   }
-  .suggest-wrapper{
-    /* width: 100%; */
-    /* height: auto; */
-    /* transition: height .3 ease; */
-    /* height: 500px;
-    overflow: auto;
-    background-color: #eee;
-    position: absolute;
-    top: 179px;
-    left: 0;
-    z-index: 999; */
+  .suggest{
+    li{
+      padding: 10px 0;
+    }
+    a{
+      display: block;
+      padding: 10px 0;
+    }
   }
 </style>
