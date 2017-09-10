@@ -70,7 +70,6 @@ export default {
           this.songs = data.result.tracks
           this.songList = songList.result
         }
-        console.log(this.songList)
         Indicator.close()
         this.allLoaded = true
         this.$refs.loadmore.onTopLoaded()
