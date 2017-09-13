@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+    <!-- <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore"> -->
       <Search></Search>
       <mt-swipe :auto="4000">
         <mt-swipe-item v-for="(item, index) in songList" :key="index">
@@ -13,7 +13,33 @@
       <ul class="full-list">
         <li v-for="(item,index) in songs" :key="index"><router-link :to="{path: '/player', query: { id: item.id }}" v-text="index + 1 + '、' + item.name"></router-link></li>
       </ul>
-    </mt-loadmore>
+      <mt-tabbar class="is-fixed">
+      <mt-tab-item id="外卖">
+        <router-link to="/" class="block">
+          <div class="mint-tab-item-icon">
+            <i class="iconfont">&#xe601;</i>
+          </div>
+          首页
+        </router-link>
+      </mt-tab-item>
+      <mt-tab-item id="发现">
+        <router-link to="/recommand" class="block">
+          <div class="mint-tab-item-icon">
+            <i class="iconfont">&#xe691;</i>
+          </div>
+          发现
+        </router-link>
+      </mt-tab-item>
+      <mt-tab-item id="我的">
+        <router-link to="/my" class="block">
+          <div class="mint-tab-item-icon">
+            <i class="iconfont">&#xe755;</i>
+          </div>
+          我的
+        </router-link>
+      </mt-tab-item>
+    </mt-tabbar>
+    <!-- </mt-loadmore> -->
   </div>
 </template>
 
@@ -72,7 +98,7 @@ export default {
         }
         Indicator.close()
         this.allLoaded = true
-        this.$refs.loadmore.onTopLoaded()
+        // this.$refs.loadmore.onTopLoaded()
       }))
     }
   }

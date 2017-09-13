@@ -1,6 +1,6 @@
 <template>
-  <div class="my">
-      wo de
+  <div class="recommand">
+      find
       <mt-tabbar class="is-fixed">
       <mt-tab-item id="外卖">
         <router-link to="/" class="block">
@@ -34,7 +34,7 @@
 import {util} from '../util/utils.js'
 import { Indicator } from 'mint-ui'
 export default {
-  name: 'my',
+  name: 'recommand',
   data () {
     return {
     }

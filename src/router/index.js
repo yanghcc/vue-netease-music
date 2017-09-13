@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/views/index'
 import Player from '@/views/player'
 import PlayList from '@/views/PlayList'
+import Recommand from '@/views/recommand'
 import My from '@/views/my'
 
 Vue.use(Router)
@@ -24,5 +25,9 @@ export default new Router({
     path: '/my',
     name: 'my',
     component: My
+  }, {
+    path: '/recommand',
+    name: 'recommand',
+    component: Recommand
   }]
 })
